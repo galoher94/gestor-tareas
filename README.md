@@ -290,7 +290,23 @@ Tarea (1) ──────< (N) Comentario
 
 
 ## 📞 Contacto
-3
+
+<div align="center">
+
+[![WhatsApp](https://img.shields.io/badge/WhatsApp-25D366?style=for-the-badge&logo=whatsapp&logoColor=white)](https://wa.me/573005504290)
+[![Email](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:galoher94@gmail.com)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/galoher/)
+[![GitHub](https://img.shields.io/badge/GitHub-100000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/galoher94)
+
+</div>
+
+---
+
+<div align="center">
+  <strong>Desarrollado con ❤️ por Galo Hernández</strong>
+  <br>
+  <sub>Full-Stack Developer | Node.js | React | TypeScript</sub>
+</div>
 
 Si tienes alguna pregunta sobre la implementación, no dudes en contactarme.
 

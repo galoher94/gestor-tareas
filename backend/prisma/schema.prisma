@@ -1,0 +1,64 @@
+// Schema de Prisma para Gestor de Tareas Colaborativo
+// Definición de modelos y relaciones
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql" // Usando MySQL como base de datos
+  url      = env("DATABASE_URL")
+}
+
+// Modelo Usuario
+model Usuario {
+  id        Int      @id @default(autoincrement())
+  nombre    String
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relaciones
+  tareas      Tarea[]      // Un usuario tiene muchas tareas
+  comentarios Comentario[] // Un usuario puede hacer muchos comentarios
+
+  @@map("usuarios")
+}
+
+// Modelo Tarea
+model Tarea {
+  id          Int      @id @default(autoincrement())
+  titulo      String
+  descripcion String   @db.Text
+  estado      String   @default("pendiente") // pendiente, en_progreso, completada
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  // Relación con Usuario (creador de la tarea)
+  usuarioId Int
+  usuario   Usuario @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+
+  // Relaciones
+  comentarios Comentario[] // Una tarea tiene muchos comentarios
+
+  @@map("tareas")
+}
+
+// Modelo Comentario
+model Comentario {
+  id        Int      @id @default(autoincrement())
+  contenido String   @db.Text
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // Relación con Tarea
+  tareaId Int
+  tarea   Tarea @relation(fields: [tareaId], references: [id], onDelete: Cascade)
+
+  // Relación con Usuario (autor del comentario)
+  usuarioId Int
+  usuario   Usuario @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+
+  @@map("comentarios")
+}

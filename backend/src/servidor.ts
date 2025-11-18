@@ -6,6 +6,8 @@
 import express, { Application, Request, Response } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
+import swaggerUi from 'swagger-ui-express';
+import { swaggerSpec } from './config/swagger';
 import authRutas from './rutas/auth.rutas';
 import tareasRutas from './rutas/tareas.rutas';
 import comentariosRutas from './rutas/comentarios.rutas';
@@ -22,11 +24,29 @@ app.use(cors()); // Habilitar CORS para todas las rutas
 app.use(express.json()); // Parser de JSON en el body
 app.use(express.urlencoded({ extended: true })); // Parser de datos URL encoded
 
+// Documentación de Swagger
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec, {
+  customCss: `
+    .swagger-ui .topbar { display: none }
+    .swagger-ui .info .title { color: #2563eb }
+    .swagger-ui .opblock-tag { font-size: 18px; font-weight: bold }
+  `,
+  customSiteTitle: 'API Gestor de Tareas - Documentación',
+  customfavIcon: '/favicon.ico',
+}));
+
+// Ruta para obtener el swagger.json
+app.get('/api-docs.json', (req: Request, res: Response) => {
+  res.setHeader('Content-Type', 'application/json');
+  res.send(swaggerSpec);
+});
+
 // Ruta de bienvenida
 app.get('/', (req: Request, res: Response) => {
   res.json({
     mensaje: 'API Gestor de Tareas Colaborativo - Moshipp',
     version: '1.0.0',
+    documentacion: `${req.protocol}://${req.get('host')}/api-docs`,
     endpoints: {
       autenticacion: '/api/auth',
       tareas: '/api/tasks',
@@ -62,7 +82,7 @@ app.use((err: any, req: Request, res: Response, next: any) => {
 // Iniciar servidor
 app.listen(PUERTO, () => {
   console.log(`✅ Servidor corriendo en http://localhost:${PUERTO}`);
-  console.log(`📚 Documentación de API disponible en http://localhost:${PUERTO}`);
+  console.log(`📚 Documentación Swagger en http://localhost:${PUERTO}/api-docs`);
 });
 
 export default app;

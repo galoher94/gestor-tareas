@@ -163,236 +163,35 @@ backend/
 └── README.md
 ```
 
-## 🔗 API Endpoints
+## 📚 Documentación de la API
 
-### Base URL
+La API está completamente documentada con Swagger/OpenAPI 3.0.
+
+### Ver documentación interactiva
+
+Una vez que el servidor esté corriendo, visita:
 ```
-http://localhost:3000/api
-```
-
-### Autenticación
-
-#### Registro de Usuario
-```http
-POST /auth/register
-Content-Type: application/json
-
-{
-  "nombre": "Juan Pérez",
-  "email": "juan@ejemplo.com",
-  "password": "123456"
-}
+http://localhost:3000/api-docs
 ```
 
-**Respuesta exitosa (201):**
-```json
-{
-  "exito": true,
-  "mensaje": "Usuario registrado exitosamente",
-  "datos": {
-    "id": 1,
-    "nombre": "Juan Pérez",
-    "email": "juan@ejemplo.com",
-    "createdAt": "2024-01-15T10:30:00.000Z"
-  }
-}
+### Descargar especificación OpenAPI
+```
+http://localhost:3000/api-docs.json
 ```
 
-#### Login
-```http
-POST /auth/login
-Content-Type: application/json
+### Probar endpoints
 
-{
-  "email": "juan@ejemplo.com",
-  "password": "123456"
-}
-```
-
-**Respuesta exitosa (200):**
-```json
-{
-  "exito": true,
-  "mensaje": "Inicio de sesión exitoso",
-  "datos": {
-    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...",
-    "usuario": {
-      "id": 1,
-      "nombre": "Juan Pérez",
-      "email": "juan@ejemplo.com"
-    }
-  }
-}
-```
-
-### Tareas (Requieren autenticación)
-
-**Nota:** Todas las peticiones de tareas deben incluir el header:
-```
-Authorization: Bearer {token}
-```
-
-#### Listar Tareas del Usuario
-```http
-GET /tasks
-Authorization: Bearer {token}
-```
-
-**Respuesta exitosa (200):**
-```json
-{
-  "exito": true,
-  "datos": [
-    {
-      "id": 1,
-      "titulo": "Implementar autenticación",
-      "descripcion": "Desarrollar sistema de login con JWT",
-      "estado": "en_progreso",
-      "createdAt": "2024-01-15T10:30:00.000Z",
-      "updatedAt": "2024-01-15T10:30:00.000Z",
-      "usuarioId": 1,
-      "comentarios": []
-    }
-  ]
-}
-```
-
-#### Crear Tarea
-```http
-POST /tasks
-Authorization: Bearer {token}
-Content-Type: application/json
-
-{
-  "titulo": "Nueva tarea de prueba",
-  "descripcion": "Descripción detallada de la tarea",
-  "estado": "pendiente"
-}
-```
-
-**Respuesta exitosa (201):**
-```json
-{
-  "exito": true,
-  "mensaje": "Tarea creada exitosamente",
-  "datos": {
-    "id": 2,
-    "titulo": "Nueva tarea de prueba",
-    "descripcion": "Descripción detallada de la tarea",
-    "estado": "pendiente",
-    "createdAt": "2024-01-15T11:00:00.000Z",
-    "updatedAt": "2024-01-15T11:00:00.000Z",
-    "usuarioId": 1,
-    "comentarios": []
-  }
-}
-```
-
-#### Actualizar Tarea
-```http
-PUT /tasks/2
-Authorization: Bearer {token}
-Content-Type: application/json
-
-{
-  "titulo": "Tarea actualizada",
-  "estado": "completada"
-}
-```
-
-**Respuesta exitosa (200):**
-```json
-{
-  "exito": true,
-  "mensaje": "Tarea actualizada exitosamente",
-  "datos": {
-    "id": 2,
-    "titulo": "Tarea actualizada",
-    "descripcion": "Descripción detallada de la tarea",
-    "estado": "completada",
-    "createdAt": "2024-01-15T11:00:00.000Z",
-    "updatedAt": "2024-01-15T12:00:00.000Z",
-    "usuarioId": 1,
-    "comentarios": []
-  }
-}
-```
-
-#### Eliminar Tarea
-```http
-DELETE /tasks/2
-Authorization: Bearer {token}
-```
-
-**Respuesta exitosa (200):**
-```json
-{
-  "exito": true,
-  "mensaje": "Tarea eliminada exitosamente"
-}
-```
-
-### Comentarios (Requieren autenticación)
-
-#### Listar Comentarios de una Tarea
-```http
-GET /tasks/1/comments
-Authorization: Bearer {token}
-```
-
-**Respuesta exitosa (200):**
-```json
-{
-  "exito": true,
-  "datos": [
-    {
-      "id": 1,
-      "contenido": "Este es un comentario de prueba",
-      "createdAt": "2024-01-15T12:30:00.000Z",
-      "updatedAt": "2024-01-15T12:30:00.000Z",
-      "tareaId": 1,
-      "usuarioId": 1,
-      "usuario": {
-        "id": 1,
-        "nombre": "Juan Pérez",
-        "email": "juan@ejemplo.com"
-      }
-    }
-  ]
-}
-```
-
-#### Crear Comentario en una Tarea
-```http
-POST /tasks/1/comments
-Authorization: Bearer {token}
-Content-Type: application/json
-
-{
-  "contenido": "Excelente progreso en esta tarea"
-}
-```
-
-**Respuesta exitosa (201):**
-```json
-{
-  "exito": true,
-  "mensaje": "Comentario creado exitosamente",
-  "datos": {
-    "id": 2,
-    "contenido": "Excelente progreso en esta tarea",
-    "createdAt": "2024-01-15T13:00:00.000Z",
-    "updatedAt": "2024-01-15T13:00:00.000Z",
-    "tareaId": 1,
-    "usuarioId": 1,
-    "usuario": {
-      "id": 1,
-      "nombre": "Juan Pérez",
-      "email": "juan@ejemplo.com"
-    }
-  }
-}
-```
+1. Ir a `/api-docs`
+2. Expandir el endpoint que deseas probar
+3. Click en "Try it out"
+4. Llenar los parámetros
+5. Para endpoints protegidos:
+   - Primero hacer login en `/api/auth/login`
+   - Copiar el token de la respuesta
+   - Click en el botón "Authorize" (arriba a la derecha)
+   - Pegar el token
+   - Click en "Authorize"
+   - Ahora puedes probar endpoints protegidos
 
 ## 🗄️ Base de Datos
 
